@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import safetyPinLogo from '../safetyPin.png';
 import './App.css';
 
+const ipfsClient = require('ipfs-http-client')
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001  , protocol: 'https' })
+
 class App extends Component {
    
   constructor(props) {
@@ -24,6 +27,14 @@ class App extends Component {
   onSubmit = (event) => {
     event.preventDefault()
     console.log("Submmiting form")
+    ipfs.add(this.state.buffer, (error, result) => {
+      console.log('ipfs results', result)
+      if(error) {
+        console.error(error)
+        return
+      }
+      
+    })
   }
   
   render() {
