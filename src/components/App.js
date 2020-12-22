@@ -3,17 +3,17 @@ import safetyPinLogo from '../safetyPin.png';
 import './App.css';
 
 const ipfsClient = require('ipfs-http-client')
-const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001  , protocol: 'https' })
+const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class App extends Component {
-   
+
   constructor(props) {
     super(props);
-    this.state = { 
-      buffer: null 
-    };
+    this.state = {
+      buffer: null
+    }
   }
-  
+
   captureFile = (event) => {
     event.preventDefault()
     const file = event.target.files[0]
@@ -23,20 +23,20 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) })
     }
   }
-  
+
   onSubmit = (event) => {
     event.preventDefault()
-    console.log("Submmiting form")
+    console.log("Pinning file to ipfs...")
     ipfs.add(this.state.buffer, (error, result) => {
-      console.log('ipfs results', result)
+      console.log('Pinning', result)
       if(error) {
         console.error(error)
         return
       }
-      
+
     })
   }
-  
+
   render() {
     return (
       <div>
