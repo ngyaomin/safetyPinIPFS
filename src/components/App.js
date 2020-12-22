@@ -10,7 +10,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      buffer: null
+      buffer: null,
+      ipfsHash: 'Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK'
     }
   }
 
@@ -23,7 +24,8 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) })
     }
   }
-
+//"Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK"
+// url https://ipfs.infura.io/ipfs/Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK
   onSubmit = (event) => {
     event.preventDefault()
     console.log("Pinning file to ipfs...")
@@ -59,7 +61,7 @@ class App extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img src={safetyPinLogo} className="App-logo" alt="logo" />
+                  <img src={`https://ipfs.infura.io/ipfs/${this.state.ipfsHash}`} className="App-logo" alt="logo" />
                 </a>
                 <h1>Safety Pin IPFS</h1>
                 <p>&nbsp;</p>
