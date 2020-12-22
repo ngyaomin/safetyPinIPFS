@@ -31,6 +31,8 @@ class App extends Component {
     console.log("Pinning file to ipfs...")
     ipfs.add(this.state.buffer, (error, result) => {
       console.log('Pinning', result)
+      const ipfsHash = result[0].hash
+      this.setState({ ipfsHash })
       if(error) {
         console.error(error)
         return
