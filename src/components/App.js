@@ -63,7 +63,7 @@ class App extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img src={`https://ipfs.infura.io/ipfs/${this.state.ipfsHash}`} className="App-logo" alt="logo" />
+                  <img src={`https://ipfs.infura.io/ipfs/${this.state.safetyPinHash}`} className="App-logo" alt="logo" />
                 </a>
                 <h1>Safety Pin IPFS</h1>
                 <p>&nbsp;</p>
