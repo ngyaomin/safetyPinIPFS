@@ -14,6 +14,17 @@ class App extends Component {
     await this.loadBlockchainData()
   }
 
+  async loadWeb3() {
+    if(window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    } if(window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    } else {
+      window.alert('Wheres the fox')
+    }
+  }
+
   async loadBlockchainData() {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
@@ -32,25 +43,17 @@ class App extends Component {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      account: '',
+      account: null,
       buffer: null,
       contract: null,
+      web3: null,
       safetyPinHash: ''
     }
   }
 
-  async loadWeb3() {
-    if(window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    } if(window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    } else {
-      window.alert('Wheres the fox')
-    }
-  }
+
 
   captureFile = (event) => {
     event.preventDefault()
@@ -61,21 +64,21 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) })
     }
   }
-  
+
   onSubmit = (event) => {
     event.preventDefault()
     console.log("Pinning file to ipfs...")
     ipfs.add(this.state.buffer, (error, result) => {
       console.log('Pinning', result)
-      const safetyPinHash = result[0].hash
-      this.setState({ safetyPinHash })
+
       if(error) {
         console.error(error)
         return
       }
-      this.state.contract.methods.set(result[0].hash).send({ from: this.state.account })
+      this.state.contract.methods.set(result[0].hash)
+        .send({ from: this.state.account })
         .then((r) => {
-          this.setState({ safetyPinHash: result[0].hash })
+          return this.setState({ safetyPinHash: result[0].hash })
         })
     })
   }
