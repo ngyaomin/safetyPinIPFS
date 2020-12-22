@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       buffer: null,
-      ipfsHash: 'Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK'
+      safetyPinHash: 'Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK'
     }
   }
 
@@ -31,8 +31,8 @@ class App extends Component {
     console.log("Pinning file to ipfs...")
     ipfs.add(this.state.buffer, (error, result) => {
       console.log('Pinning', result)
-      const ipfsHash = result[0].hash
-      this.setState({ ipfsHash })
+      const safetyPinHash = result[0].hash
+      this.setState({ safetyPinHash })
       if(error) {
         console.error(error)
         return

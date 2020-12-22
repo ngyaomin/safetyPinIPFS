@@ -2,12 +2,12 @@
 pragma solidity 0.5.16;
 
 contract SafetyPinFile {
-  string ipfsHash;
-  function set(string memory _ipfsHash) public {
-    ipfsHash = _ipfsHash;
+  string safetyPinHash;
+  function set(string memory _safetyPinHash) public {
+    safetyPinHash = _safetyPinHash;
   }
 
   function get()public view returns (string memory) {
-    return ipfsHash;
+    return safetyPinHash;
   }
 }
