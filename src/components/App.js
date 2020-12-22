@@ -61,8 +61,6 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) })
     }
   }
-//"Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK"
-// url https://ipfs.infura.io/ipfs/Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK
   onSubmit = (event) => {
     event.preventDefault()
     console.log("Pinning file to ipfs...")
