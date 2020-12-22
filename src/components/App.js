@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import safetyPinLogo from '../safetyPin.png';
 import './App.css';
 import Web3 from 'web3';
+import SafetyPinFile from '../abis/SafetyPinFile.json'
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
@@ -17,6 +18,16 @@ class App extends Component {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     this.setState({ account: accounts[0] })
+    const networkId = await web3.eth.net.getId()
+    const networkData = SafetyPinFile.networks[networkId]
+    if(networkData) {
+      const contract = web3.eth.Contract(SafetyPinFile.abi, networkData.address)
+      this.setState({ contract })
+      const safetyPinHash = await contract.methods.get().call()
+      this.setState({ safetyPinHash })
+    } else {
+      window.alert('stupid contract not deployed to current network')
+    }
     console.log(accounts)
   }
 
@@ -25,7 +36,8 @@ class App extends Component {
     this.state = {
       account: '',
       buffer: null,
-      safetyPinHash: 'Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK'
+      contract: null,
+      safetyPinHash: ''
     }
   }
 
@@ -62,7 +74,10 @@ class App extends Component {
         console.error(error)
         return
       }
-
+      this.state.contract.methods.set(result[0].hash).send({ from: this.state.account })
+        .then((r) => {
+          this.setState({ safetyPinHash: result[0].hash })
+        })
     })
   }
 
