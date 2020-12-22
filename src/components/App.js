@@ -1,17 +1,42 @@
 import React, { Component } from 'react';
 import safetyPinLogo from '../safetyPin.png';
 import './App.css';
+import Web3 from 'web3';
 
 const ipfsClient = require('ipfs-http-client')
 const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: 5001, protocol: 'https' })
 
 class App extends Component {
 
+  async componentWillMount() {
+    await this.loadWeb3()
+    await this.loadBlockchainData()
+  }
+
+  async loadBlockchainData() {
+    const web3 = window.web3
+    const accounts = await web3.eth.getAccounts()
+    this.setState({ account: accounts[0] })
+    console.log(accounts)
+  }
+
   constructor(props) {
     super(props);
     this.state = {
+      account: '',
       buffer: null,
       safetyPinHash: 'Qmbi4GowPrWGc9cNSNxQg3b22qwkLv3oG5m3xYh86BbxbK'
+    }
+  }
+
+  async loadWeb3() {
+    if(window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    } if(window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    } else {
+      window.alert('Wheres the fox')
     }
   }
 
@@ -53,6 +78,11 @@ class App extends Component {
           >
             Safety Pin Home
           </a>
+
+          <ul className='navbar-nav px-3'>
+            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block"></li>
+             <small className="text-white">{this.state.account}</small>
+          </ul>
         </nav>
         <div className="container-fluid mt-5">
           <div className="row">
