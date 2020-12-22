@@ -61,6 +61,7 @@ class App extends Component {
       this.setState({ buffer: Buffer(reader.result) })
     }
   }
+  
   onSubmit = (event) => {
     event.preventDefault()
     console.log("Pinning file to ipfs...")
